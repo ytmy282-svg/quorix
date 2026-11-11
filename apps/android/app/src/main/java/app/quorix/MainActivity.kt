@@ -46,12 +46,12 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-private val Ink = Color(0xFF18201D)
-private val Muted = Color(0xFF66716D)
+private val Ink = Color(0xFFF4F7F5)
+private val Muted = Color(0xFFA7B2AD)
 private val Modes = listOf("Auto", "Normal Chat", "BOSS Mode", "Smart Routing", "Parallel", "Collaboration", "Sequential")
 private val ThinkingLevels = listOf("Low", "Medium", "High")
-private val GlassFill = Color.White.copy(alpha = 0.58f)
-private val GlassStroke = Color.White.copy(alpha = 0.82f)
+private val GlassFill = Color(0xFF111714).copy(alpha = 0.62f)
+private val GlassStroke = Color.White.copy(alpha = 0.25f)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,10 +63,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun GlassSurface(modifier: Modifier = Modifier, shape: RoundedCornerShape, content: @Composable ColumnScope.() -> Unit) {
     Surface(
-        modifier = modifier.border(1.dp, GlassStroke, shape),
+        modifier = modifier
+            .background(
+                Brush.linearGradient(
+                    listOf(Color.White.copy(alpha = 0.13f), Color.White.copy(alpha = 0.025f), Color(0xFF18D879).copy(alpha = 0.07f))
+                ), shape
+            )
+            .border(1.dp, Brush.linearGradient(listOf(Color.White.copy(alpha = 0.48f), Color.White.copy(alpha = 0.08f), Color(0xFF36E58C).copy(alpha = 0.22f))), shape),
         shape = shape,
         color = GlassFill,
-        shadowElevation = 12.dp,
+        shadowElevation = 20.dp,
         content = { Column(content = content) }
     )
 }
@@ -110,15 +116,22 @@ private fun QuorixApp() {
         } }
     }
 
-    MaterialTheme {
-        Box(Modifier.fillMaxSize().background(Brush.linearGradient(listOf(Color(0xFFEAF2EF), Color(0xFFF7F8F7), Color(0xFFE6EEEB))))) {
+    MaterialTheme(colorScheme = darkColorScheme(
+        background = Color(0xFF050706),
+        surface = Color(0xFF101512),
+        onBackground = Ink,
+        onSurface = Ink,
+        primary = Color(0xFF35E58A)
+    )) {
+        Box(Modifier.fillMaxSize().background(Brush.linearGradient(listOf(Color(0xFF050706), Color(0xFF0B100D), Color(0xFF050706))))) {
             if (wallpaperBitmap != null) {
                 Image(wallpaperBitmap!!.asImageBitmap(), "Chat wallpaper", Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                Box(Modifier.fillMaxSize().background(Color.White.copy(alpha = 0.48f)))
+                Box(Modifier.fillMaxSize().background(Color(0xFF050706).copy(alpha = 0.62f)))
             } else {
                 // Soft ambient highlights behind the translucent glass surfaces.
-                Box(Modifier.offset(x = (-70).dp, y = 180.dp).size(240.dp).blur(70.dp).background(Color(0xFFB9D9CE), CircleShape))
-                Box(Modifier.align(Alignment.BottomEnd).offset(x = 65.dp, y = (-150).dp).size(260.dp).blur(80.dp).background(Color(0xFFD4DCEB), CircleShape))
+                Box(Modifier.offset(x = (-70).dp, y = 180.dp).size(260.dp).blur(85.dp).background(Color(0xFF0B9B55).copy(alpha = 0.42f), CircleShape))
+                Box(Modifier.align(Alignment.BottomEnd).offset(x = 65.dp, y = (-150).dp).size(280.dp).blur(90.dp).background(Color(0xFF9A4A12).copy(alpha = 0.28f), CircleShape))
+                Box(Modifier.align(Alignment.CenterEnd).offset(x = 90.dp, y = (-20).dp).size(180.dp).blur(75.dp).background(Color(0xFF1A6945).copy(alpha = 0.32f), CircleShape))
             }
 
             Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().padding(horizontal = 16.dp, vertical = 12.dp)) {
@@ -253,7 +266,7 @@ private fun QuorixApp() {
 private fun Suggestion(label: String, onClick: () -> Unit) {
     Surface(
         modifier = Modifier.clickable(onClick = onClick).border(1.dp, GlassStroke, RoundedCornerShape(22.dp)),
-        shape = RoundedCornerShape(22.dp), color = Color.White.copy(alpha = 0.55f), shadowElevation = 5.dp
+        shape = RoundedCornerShape(22.dp), color = Color(0xFF101713).copy(alpha = 0.72f), shadowElevation = 9.dp
     ) {
         Text(label, color = Ink, modifier = Modifier.padding(horizontal = 17.dp, vertical = 13.dp))
     }
