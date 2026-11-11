@@ -108,7 +108,7 @@ private fun QuorixApp() {
     val wallpaperBitmap by produceState<android.graphics.Bitmap?>(initialValue = null, wallpaperUri) {
         value = wallpaperUri?.let { uri ->
             withContext(Dispatchers.IO) {
-                runCatching { context.contentResolver.openInputStream(uri)?.use(BitmapFactory::decodeStream) }.getOrNull()
+                runCatching { context.contentResolver.openInputStream(uri)?.use { stream -> BitmapFactory.decodeStream(stream) } }.getOrNull()
             }
         }
     }
