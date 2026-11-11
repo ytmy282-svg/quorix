@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
+import android.speech.RecognizerIntent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -95,6 +96,12 @@ private fun QuorixApp() {
             }
             wallpaperUri = uri
             preferences.edit().putString("wallpaper_uri", uri.toString()).apply()
+        }
+    }
+    val voiceInput = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == android.app.Activity.RESULT_OK) {
+            val spoken = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+            if (!spoken.isNullOrBlank()) prompt = listOf(prompt, spoken).filter { it.isNotBlank() }.joinToString(" ")
         }
     }
     val attachmentPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -219,7 +226,13 @@ private fun QuorixApp() {
                                     }) { Text("Reset", color = Muted, fontSize = 11.sp) }
                                 }
                                 Spacer(Modifier.weight(1f))
-                                IconButton(onClick = { /* Voice input integration follows */ }) {
+                                IconButton(onClick = {
+                                    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                                        putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to Quorix")
+                                    }
+                                    runCatching { voiceInput.launch(intent) }
+                                }) {
                                     Icon(Icons.Default.Mic, contentDescription = "Voice input", tint = Ink)
                                 }
                                 Surface(shape = CircleShape, color = Ink) {
