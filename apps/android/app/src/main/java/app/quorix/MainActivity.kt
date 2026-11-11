@@ -66,7 +66,7 @@ private fun GlassSurface(modifier: Modifier = Modifier, shape: RoundedCornerShap
         shape = shape,
         color = GlassFill,
         shadowElevation = 12.dp,
-        content = content
+        content = { Column(content = content) }
     )
 }
 
