@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -124,7 +125,8 @@ private fun QuorixApp() {
                 GlassSurface(Modifier.fillMaxWidth(), RoundedCornerShape(28.dp)) {
                     Row(Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { menuOpen = true }) { Icon(Icons.Default.Menu, "Open menu", tint = Ink) }
-                        Text("Quorix", color = Ink, fontWeight = FontWeight.Bold, fontSize = 21.sp)
+                        Image(painter = painterResource(R.drawable.quorix_logo), contentDescription = "Quorix logo", modifier = Modifier.size(42.dp).clip(RoundedCornerShape(12.dp)), contentScale = ContentScale.Crop)
+                        Text("Quorix", color = Ink, fontWeight = FontWeight.Bold, fontSize = 21.sp, modifier = Modifier.padding(start = 9.dp))
                         Spacer(Modifier.weight(1f))
                         Text("AI workspace", color = Muted, fontSize = 12.sp, modifier = Modifier.padding(end = 12.dp))
                     }
@@ -206,7 +208,10 @@ private fun QuorixApp() {
                     Box(Modifier.fillMaxSize().background(Color(0x440C1713)).clickable { menuOpen = false })
                     GlassSurface(Modifier.fillMaxHeight().fillMaxWidth(0.84f), RoundedCornerShape(topEnd = 30.dp, bottomEnd = 30.dp)) {
                         Column(Modifier.fillMaxSize().padding(22.dp)) {
-                            Text("Quorix", fontWeight = FontWeight.Bold, fontSize = 24.sp, color = Ink)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Image(painter = painterResource(R.drawable.quorix_logo), contentDescription = "Quorix logo", modifier = Modifier.size(48.dp).clip(RoundedCornerShape(14.dp)), contentScale = ContentScale.Crop)
+                                Text("Quorix", fontWeight = FontWeight.Bold, fontSize = 24.sp, color = Ink, modifier = Modifier.padding(start = 10.dp))
+                            }
                             Text("Your AI workspace", color = Muted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp, bottom = 20.dp))
                             listOf("New chat", "Chat history", "Projects", "Library", "BOSS Network", "AI Builder", "Research", "Media Studio", "Provider Hub").forEach { item ->
                                 TextButton(onClick = { menuOpen = false }, modifier = Modifier.fillMaxWidth()) {
