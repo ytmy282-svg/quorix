@@ -23,3 +23,17 @@ button{font:inherit;color:inherit;cursor:pointer}.sidebar{width:250px;flex-shrin
 .auth-foot{margin-top:16px}
 .auth-foot a{color:#6de2a1;text-decoration:none}
 @media(max-width:480px){.auth-card{padding:26px 22px}}
+
+/* Chat workspace and account actions */
+.auth-link{color:#a9b9ae;text-decoration:none;font-size:12px;padding:8px 10px;border:1px solid rgba(145,180,157,.16);border-radius:9px}
+.auth-link.primary{color:#07140d;background:#42d98b;border-color:#42d98b;font-weight:800}
+.composer-wrap{margin:28px 0 48px}
+.composer select{background:#101a14;color:#dce9df;border:1px solid rgba(145,180,157,.2);border-radius:9px;padding:8px 10px;font-size:12px;max-width:145px}
+.composer .send:disabled{opacity:.45;cursor:not-allowed}
+.chat-transcript{display:flex;flex-direction:column;gap:14px;max-height:440px;overflow:auto;padding:0 4px 18px}
+.chat-message{max-width:min(88%,760px);padding:14px 17px;border:1px solid rgba(145,180,157,.14);border-radius:15px;background:rgba(17,27,21,.72)}
+.chat-message b{font-size:11px;color:#66dda0;letter-spacing:.08em}
+.chat-message p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.7;margin:8px 0 0;color:#e0eae3}
+.user-message{align-self:flex-end;background:rgba(35,91,59,.22)}
+.assistant-message{align-self:flex-start}
+@media(max-width:600px){.topbar>div{gap:6px}.topbar>div .online,.topbar>div .avatar{display:none}.auth-link{font-size:11px;padding:7px}}
