@@ -75,6 +75,20 @@ export default function Home() {
           }
         }
       }
+      // Process the final unterminated SSE line and any decoder-buffered bytes.
+      buffer += decoder.decode();
+      if (buffer.startsWith("data:")) {
+        const data = buffer.slice(5).trim();
+        if (data && data !== "[DONE]") {
+          try {
+            const packet = JSON.parse(data);
+            answer += packet.choices?.[0]?.delta?.content ?? "";
+            setMessages([...nextMessages, { role: "assistant", content: answer }]);
+          } catch {
+            // Ignore a malformed final provider packet.
+          }
+        }
+      }
       if (!answer) setNotice("The provider returned no text.");
     } catch (error) {
       setMessages(nextMessages);
