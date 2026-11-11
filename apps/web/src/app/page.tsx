@@ -1,69 +1,44 @@
-import Image from "next/image";
+"use client";
 
+import { useState } from "react";
+
+const groups = [
+  { label: "WORKSPACE", items: ["Home", "Normal Chat", "BOSS Network", "Projects", "Library"] },
+  { label: "CREATE", items: ["AI Builder", "Research", "Media Studio", "Automation"] },
+  { label: "SYSTEM", items: ["Device Control", "Plugins", "API Manager", "AI Monitor", "Review Center"] },
+];
+const cards = [
+  ["✣", "BOSS Network", "Coordinate AI agents and review their work."],
+  ["⌘", "AI Builder", "Build websites, apps, bots and tools."],
+  ["⌕", "Research", "Search sources and prepare cited reports."],
+  ["▣", "Device Control", "Manage supported Android devices."],
+];
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  const [active, setActive] = useState("Home");
+  const [mode, setMode] = useState("Normal Chat");
+  const [prompt, setPrompt] = useState("");
+  const [notice, setNotice] = useState("");
+  return <main className="app-shell">
+    <aside className="sidebar">
+      <div className="brand"><div className="brand-mark">Q</div><div><b>QUORIX</b><small>AI WORKSPACE</small></div></div>
+      <button className="new-chat" onClick={() => {setActive("Normal Chat");setMode("Normal Chat");setPrompt("");}}>＋ <span>New chat</span></button>
+      <nav>{groups.map(group => <section className="nav-group" key={group.label}><p>{group.label}</p>{group.items.map(item => <button key={item} className={active===item?"nav-item active":"nav-item"} onClick={()=>{setActive(item);if(item==="BOSS Network")setMode(item);if(item==="Normal Chat")setMode(item);}}><span>◇</span>{item}{item==="BOSS Network"&&<i>BETA</i>}</button>)}</section>)}</nav>
+      <div className="account"><div className="avatar">Q</div><div><b>My Workspace</b><small>Personal account</small></div></div>
+    </aside>
+    <section className="main-panel">
+      <header className="topbar"><span>Workspace　/　<b>{active}</b></span><div><i className="online"/> Preview workspace <span className="avatar">Q</span></div></header>
+      <div className="content">
+        <div className="eyebrow">YOUR AI WORKSPACE</div>
+        <h1>{active==="Home"?<>One workspace.<br/><em>Every intelligence.</em></>:active}</h1>
+        <p className="subtitle">{active==="Home"?"Welcome to Quorix. What would you like to work on today?":`Your Quorix ${active} workspace.`}</p>
+        <div className="mode-switch"><button className={mode==="Normal Chat"?"chosen":""} onClick={()=>{setMode("Normal Chat");setActive("Normal Chat");}}>◉ Normal Chat</button><button className={mode==="BOSS Network"?"chosen":""} onClick={()=>{setMode("BOSS Network");setActive("BOSS Network");}}>✣ BOSS Network</button></div>
+        <section className="composer"><div className="composer-title"><b>{mode==="BOSS Network"?"What should your AI team work on?":"Ask Quorix anything."}</b><small>{mode==="BOSS Network"?"BOSS can plan, delegate and review tasks.":"Choose a model after connecting a provider."}</small></div><textarea value={prompt} onChange={e=>setPrompt(e.target.value)} placeholder={mode==="BOSS Network"?"Describe a task for your AI team...":"Message Quorix..."} /><div className="composer-bottom"><div><button onClick={()=>setNotice("File upload will be added with the storage integration.")}>＋ Attach</button><button onClick={()=>setNotice("Web search will be added in the Research phase.")}>⌕ Web search</button><button onClick={()=>setActive("API Manager")}>◉ Models</button></div><button className="send" onClick={()=>setNotice(prompt.trim()?"Chat interface preview only — AI provider connection is the next phase.":"Write a message first.")}>↑</button></div>{notice&&<small className="notice">{notice}</small>}</section>
+        <div className="section-title"><div><span>GET STARTED</span><h2>Explore your workspace</h2></div><button onClick={()=>setActive("API Manager")}>Connect AI providers ↗</button></div>
+        <div className="cards">{cards.map(([icon,title,desc])=><button className="feature-card" key={title} onClick={()=>setActive(title)}><span>{icon}</span><b>{title}</b><small>{desc}</small><i>↗</i></button>)}</div>
+        <div className="section-title providers-title"><div><span>MODEL ECOSYSTEM</span><h2>One expandable provider list</h2></div><small>20 core providers + media · expandable</small></div>
+        <div className="provider-note">Connect provider API keys or officially supported account authorization in API Manager. No provider is connected yet.</div>
+        <footer>QUORIX <span>·</span> YOUR AI WORKSPACE <span>·</span> EARLY PREVIEW</footer>
+      </div>
+    </section>
+  </main>;
 }
