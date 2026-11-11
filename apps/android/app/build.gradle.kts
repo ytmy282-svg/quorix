@@ -28,6 +28,9 @@ android {
 
     buildTypes {
         release {
+            // Temporary test signing only. Replace with a private release keystore
+            // before publishing or distributing a production release.
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
