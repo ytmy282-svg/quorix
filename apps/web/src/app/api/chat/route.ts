@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 
 const PROVIDER_CONFIG: Record<string, { endpoint: string; keyName: string; defaultModel: string }> = {
   openai: { endpoint: "https://api.openai.com/v1/chat/completions", keyName: "OPENAI_API_KEY", defaultModel: "gpt-4o-mini" },
@@ -73,9 +71,9 @@ export async function POST(request: NextRequest) {
     });
 
     if (!upstream.ok) {
-      const detail = await upstream.text();
+      await upstream.text();
       return NextResponse.json(
-        { error: "AI provider request failed.", providerStatus: upstream.status, detail: detail.slice(0, 1200) },
+        { error: "AI provider request failed. Check provider credentials and model access." },
         { status: upstream.status >= 400 && upstream.status < 600 ? upstream.status : 502 },
       );
     }
@@ -92,7 +90,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown upstream error";
-    return NextResponse.json({ error: "Could not reach the AI provider.", detail: message }, { status: 502 });
+    console.error("Quorix provider request failed", error);
+    return NextResponse.json({ error: "Could not reach the AI provider. Try again shortly." }, { status: 502 });
   }
 }
