@@ -7,6 +7,8 @@ on:
       - "apps/android/**"
       - ".github/workflows/android-release.yml"
   push:
+    branches:
+      - "feature/quorix-foundation"
     tags:
       - "v*"
 
