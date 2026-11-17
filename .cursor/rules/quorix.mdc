@@ -1,0 +1,47 @@
+---
+description: Quorix project-wide product, architecture, security and workflow rules
+alwaysApply: true
+---
+
+# Quorix Cursor Rules
+
+Before coding, read `CLAUDE.md` and all six files in `docs/`:
+- `docs/01_PRD.md`
+- `docs/02_AppFlow.md`
+- `docs/03_UI_Spec.md`
+- `docs/04_TRD.md`
+- `docs/05_Schema.md`
+- `docs/06_Plan.md`
+
+## Workflow
+- Inspect current source and manifests before editing.
+- Plan first; identify files and tests affected.
+- Make small, reviewable changes on a feature branch.
+- Preserve existing behavior and architecture unless an approved decision changes it.
+- Update `docs/06_Plan.md` when implementation status changes.
+- Do not claim tests/builds/deployments passed unless actually run.
+- Do not merge to the default branch without explicit user approval.
+
+## Product and UI
+- Quorix is Android-first.
+- Use the exact approved Quorix logo asset; do not approximate it.
+- Follow the dark Liquid Glass specification. Real backdrop blur where supported, translucency, reflective edges and depth are required; gradients alone are not Liquid Glass.
+- Chat Mode and Thinking selectors belong inside the composer.
+- Wallpaper controls belong in Settings > Appearance.
+- Provider catalog must remain extensible.
+- BOSS must show actual routing/agent execution, never simulated activity.
+- AI Review is limited to five rounds.
+- Android Device Control is native-only and permission-gated.
+
+## Technical and security
+- Verify framework versions from repository manifests.
+- Verify provider API details from official documentation.
+- Distinguish permanent free tiers, limited free tiers, trial credits and paid plans.
+- Keep API keys and service-role credentials server-side.
+- Never commit secrets or log credentials.
+- Enforce authentication, workspace ownership and RLS.
+- Require explicit confirmation for destructive device operations.
+- Do not invent capabilities or mark untested integrations as working.
+
+## Final response
+Summarize changed files, tests actually run, remaining work and plan updates.
