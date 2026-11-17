@@ -1,0 +1,5 @@
+# Cursor compatibility note
+
+Project-wide Cursor rules are maintained in `.cursor/rules/quorix.mdc`.
+
+Read that file and `CLAUDE.md` before making changes. Also read all six specifications in `docs/`. Keep this file as a pointer only; update the modern `.cursor/rules/` rule when project instructions change.
